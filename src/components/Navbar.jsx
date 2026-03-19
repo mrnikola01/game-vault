@@ -29,6 +29,7 @@ function Navbar() {
           >
             GameVault
           </Typography>
+
           <TextField
             placeholder="Search for games..."
             size="small"
@@ -46,6 +47,7 @@ function Navbar() {
               },
             }}
           />
+
           <Box sx={{ flexGrow: 1 }} />
           <IconButton color="inherit">
             <ShoppingCartIcon />

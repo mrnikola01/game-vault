@@ -14,8 +14,10 @@ A game shop application built with React and Supabase.
 - [x] MUI theme (dark mode, custom colors)
 - [x] Navbar with search, cart and profile icons
 - [ ] Authentication (login, register)
-- [ ] Protected routes
-- [ ] Shop page
+- [ ] Protected cart route
+- [ ] Homepage with game cards
+- [ ] Game detail page
+- [ ] Add to cart functionality
 
 ## Getting Started
 

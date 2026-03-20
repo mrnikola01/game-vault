@@ -33,6 +33,7 @@ function GameGrid() {
               title={game.title}
               price={game.price}
               image={game.image_url}
+              slug={game.slug}
             />
           </Grid>
         ))}

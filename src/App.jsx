@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, CssBaseline, Box } from "@mui/material";
-import { theme } from "../theme";
+import { theme } from "./theme";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
+import GameDetailsPage from "./pages/GameDetailsPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/games/:slug" element={<GameDetailsPage />} />
           </Routes>
         </Box>
       </BrowserRouter>

@@ -1,6 +1,9 @@
 import { Card, CardMedia, CardContent, Typography, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-function GameCard({ title, price, image }) {
+function GameCard({ title, price, image, slug }) {
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <Box>
@@ -16,6 +19,7 @@ function GameCard({ title, price, image }) {
       <CardContent sx={{ flexGrow: 1, px: 2 }}>
         <Typography
           variant="h6"
+          onClick={() => navigate(`/games/${slug}`)}
           sx={{
             mt: 0.5,
             mb: 1,
@@ -23,6 +27,8 @@ function GameCard({ title, price, image }) {
             lineHeight: 1.2,
             height: "2.4em",
             overflow: "hidden",
+            cursor: "pointer",
+            "&:hover": { color: "primary.main" },
           }}
         >
           {title}

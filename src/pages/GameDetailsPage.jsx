@@ -1,45 +1,26 @@
-import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
 import {
   Box,
   Container,
   Grid,
   Typography,
   Button,
-  Stack,
-  Chip,
   Divider,
   Paper,
-  Rating,
 } from "@mui/material";
-import {
-  ShoppingCart as ShoppingCartIcon,
-  ArrowBack as ArrowBackIcon,
-  CheckCircle as CheckCircleIcon,
-  Language as LanguageIcon,
-  Info as InfoIcon,
-} from "@mui/icons-material";
+import { ShoppingCart as ShoppingCartIcon } from "@mui/icons-material";
 import { getGameBySlug } from "../supabase/games";
 
 function GameDetailsPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [game, setGame] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchGame = async () => {
-      const { data, error } = await getGameBySlug(slug);
-      if (error) {
-        setError(error.message);
-      } else {
-        setGame(data);
-      }
-      setIsLoading(false);
-    };
-    fetchGame();
-  }, [slug]);
+  const {
+    data: game,
+    isLoading,
+    error,
+  } = useFetch(() => getGameBySlug(slug), [slug]);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -64,8 +45,7 @@ function GameDetailsPage() {
               alt={game.title}
               sx={{
                 width: "100%",
-                height: "400px",
-                objectFit: "cover",
+                height: "auto",
                 borderRadius: 4,
                 display: "block",
               }}

@@ -1,25 +1,10 @@
-import { useState, useEffect } from "react";
+import useFetch from "../hooks/useFetch";
 import { Grid, Container } from "@mui/material";
 import { getGames } from "../supabase/games";
 import GameCard from "./GameCard";
 
 function GameGrid() {
-  const [games, setGames] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      const { data, error } = await getGames();
-      if (error) {
-        setError(error.message);
-      } else {
-        setGames(data);
-      }
-      setIsLoading(false);
-    };
-    fetchGames();
-  }, []);
+  const { data: games, isLoading, error } = useFetch(() => getGames());
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;

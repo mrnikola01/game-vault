@@ -6,6 +6,7 @@ import {
   IconButton,
   Container,
   TextField,
+  InputAdornment,
 } from "@mui/material";
 import {
   Search as SearchIcon,
@@ -17,7 +18,7 @@ function Navbar() {
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
-        <Toolbar sx={{ px: 3 }}>
+        <Toolbar sx={{ px: 3, flexWrap: "wrap" }}>
           <Typography
             variant="h5"
             sx={{
@@ -34,15 +35,18 @@ function Navbar() {
             placeholder="Search for games..."
             size="small"
             sx={{
-              ml: 3,
+              ml: { xs: 0, sm: 3 },
+              mt: { xs: 1, sm: 0 },
               backgroundColor: "rgba(255,255,255,0.1)",
               borderRadius: 1,
-              width: "400px",
+              width: { xs: "100%", sm: "250px", md: "400px" },
             }}
             slotProps={{
               input: {
                 startAdornment: (
-                  <SearchIcon sx={{ mr: 1, color: "text.secondary" }} />
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: "text.secondary" }} />
+                  </InputAdornment>
                 ),
               },
             }}

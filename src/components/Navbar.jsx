@@ -16,7 +16,14 @@ import {
 
 function Navbar() {
   return (
-    <AppBar position="sticky">
+    <AppBar
+      position="sticky"
+      elevation={0}
+      sx={{
+        backgroundColor: "#121212",
+        borderBottom: "1px solid #333",
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar sx={{ px: 3, flexWrap: "wrap" }}>
           <Typography

@@ -37,8 +37,9 @@ function UserPage() {
         sx={{
           mb: 4,
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
+          flexDirection: { xs: "column", sm: "row" },
+          alignItems: { xs: "flex-start", sm: "center" },
+          gap: 2,
         }}
       >
         <Box>
@@ -49,16 +50,29 @@ function UserPage() {
             {user?.email}
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", gap: 2 }}>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: 1,
+            width: { xs: "100%", sm: "auto" },
+          }}
+        >
           <Button
             variant="contained"
             color="primary"
             onClick={() => navigate("/admin")}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
           >
             Admin Panel
           </Button>
-
-          <Button variant="outlined" color="error" onClick={handleSignOut}>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={handleSignOut}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
             Sign Out
           </Button>
         </Box>

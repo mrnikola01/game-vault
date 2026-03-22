@@ -8,6 +8,7 @@ import {
   Typography,
   Button,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 import {
   ShoppingCart as ShoppingCartIcon,
@@ -53,7 +54,20 @@ function GameDetailsPage() {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "60vh",
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+
   if (error) return <p>Error: {error}</p>;
   if (!game) return null;
 

@@ -28,8 +28,6 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  if (user) return <Navigate to="/" />;
-
   const handleSubmit = async () => {
     const { data, error } = await signUp(username, email, password);
 
@@ -39,6 +37,8 @@ function RegisterPage() {
       navigate("/");
     }
   };
+
+  if (user) return <Navigate to="/user" />;
 
   return (
     <Box

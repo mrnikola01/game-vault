@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import GameDetailsPage from "./pages/GameDetailsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import UserPage from "./pages/UserPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/games/:slug" element={<GameDetailsPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/user" element={<UserPage />} />
             </Routes>
           </Box>
         </BrowserRouter>

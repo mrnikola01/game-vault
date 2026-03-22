@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { signIn } from "../supabase/auth";
 import { useAuth } from "../context/AuthContext";
 import {
   Box,
@@ -26,7 +27,17 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  if (user) return <Navigate to="/" />;
+  const handleSubmit = async () => {
+    const { data, error } = await signIn(email, password);
+
+    if (error) {
+      console.error(error.message);
+    } else {
+      navigate("/");
+    }
+  };
+
+  if (user) return <Navigate to="/user" />;
 
   return (
     <Box
@@ -94,6 +105,7 @@ function LoginPage() {
             />
 
             <Button
+              onClick={handleSubmit}
               variant="contained"
               fullWidth
               size="large"

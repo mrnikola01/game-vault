@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { signIn } from "../supabase/auth";
-import { useAuth } from "../context/AuthContext";
 import {
   Box,
   Container,
@@ -22,22 +21,27 @@ import { useNavigate, Navigate } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async () => {
+    setError("");
+
+    if (!email || !password) {
+      setError("All fields are requested");
+      return;
+    }
+
     const { data, error } = await signIn(email, password);
 
     if (error) {
-      console.error(error.message);
+      setError(error.message);
     } else {
       navigate("/");
     }
   };
-
-  if (user) return <Navigate to="/user" />;
 
   return (
     <Box
@@ -103,6 +107,12 @@ function LoginPage() {
                 },
               }}
             />
+
+            {error && (
+              <Typography color="error" variant="body2">
+                {error}
+              </Typography>
+            )}
 
             <Button
               onClick={handleSubmit}

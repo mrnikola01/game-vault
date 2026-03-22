@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { signUp } from "../supabase/auth";
-import { useAuth } from "../context/AuthContext";
 import {
   Box,
   Container,
@@ -22,23 +21,28 @@ import { useNavigate, Navigate } from "react-router-dom";
 
 function RegisterPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async () => {
+    setError("");
+
+    if (!email || !password) {
+      setError("All fields are requested");
+      return;
+    }
+
     const { data, error } = await signUp(username, email, password);
 
     if (error) {
-      console.error(error.message);
+      setError(error.message);
     } else {
       navigate("/");
     }
   };
-
-  if (user) return <Navigate to="/user" />;
 
   return (
     <Box
@@ -112,6 +116,12 @@ function RegisterPage() {
                 },
               }}
             />
+
+            {error && (
+              <Typography color="error" variant="body2">
+                {error}
+              </Typography>
+            )}
 
             <Button
               onClick={handleSubmit}

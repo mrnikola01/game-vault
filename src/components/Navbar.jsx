@@ -30,23 +30,48 @@ function Navbar() {
       sx={{
         backgroundColor: "#121212",
         borderBottom: "1px solid #333",
+        py: { xs: 1, sm: 0 },
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar sx={{ px: 3, flexWrap: "wrap" }}>
-          <Typography
-            variant="h5"
-            onClick={() => navigate("/")}
+        <Toolbar
+          sx={{
+            px: 3,
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: "center",
+            gap: { xs: 1, sm: 0 },
+          }}
+        >
+          <Box
             sx={{
-              fontWeight: 900,
-              color: "primary.main",
-              letterSpacing: "-1px",
-              textTransform: "uppercase",
-              cursor: "pointer",
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            GameVault
-          </Typography>
+            <Typography
+              variant="h5"
+              onClick={() => navigate("/")}
+              sx={{
+                fontWeight: 900,
+                color: "primary.main",
+                letterSpacing: "-1px",
+                textTransform: "uppercase",
+                cursor: "pointer",
+              }}
+            >
+              GameVault
+            </Typography>
+
+            <Box sx={{ flexGrow: 1 }} />
+
+            <IconButton color="inherit">
+              <ShoppingCartIcon />
+            </IconButton>
+            <IconButton color="inherit">
+              <PersonIcon onClick={() => navigate(`/login`)} />
+            </IconButton>
+          </Box>
 
           <Autocomplete
             freeSolo
@@ -60,9 +85,9 @@ function Navbar() {
               }
             }}
             sx={{
-              ml: { xs: 0, sm: 3 },
+              width: "100%",
               mt: { xs: 1, sm: 0 },
-              width: { xs: "100%", sm: "250px", md: "400px" },
+              maxWidth: { sm: 250, md: 400 },
             }}
             renderInput={(params) => (
               <TextField
@@ -93,14 +118,6 @@ function Navbar() {
               />
             )}
           />
-
-          <Box sx={{ flexGrow: 1 }} />
-          <IconButton color="inherit">
-            <ShoppingCartIcon />
-          </IconButton>
-          <IconButton color="inherit">
-            <PersonIcon onClick={() => navigate(`/login`)} />
-          </IconButton>
         </Toolbar>
       </Container>
     </AppBar>

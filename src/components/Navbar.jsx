@@ -13,8 +13,11 @@ import {
   ShoppingCart as ShoppingCartIcon,
   Person as PersonIcon,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
   return (
     <AppBar
       position="sticky"
@@ -64,7 +67,7 @@ function Navbar() {
             <ShoppingCartIcon />
           </IconButton>
           <IconButton color="inherit">
-            <PersonIcon />
+            <PersonIcon onClick={() => navigate(`/login`)} />
           </IconButton>
         </Toolbar>
       </Container>

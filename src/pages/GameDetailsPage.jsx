@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import {
@@ -8,18 +9,49 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import { ShoppingCart as ShoppingCartIcon } from "@mui/icons-material";
-import { getGameBySlug } from "../supabase/games";
+import {
+  ShoppingCart as ShoppingCartIcon,
+  Favorite as FavoriteIcon,
+} from "@mui/icons-material";
+import { useAuth } from "../context/AuthContext";
+import {
+  getGameBySlug,
+  addFavorite,
+  removeFavorite,
+  isFavorite,
+} from "../supabase/games";
 
 function GameDetailsPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [favorited, setFavorited] = useState(false);
 
   const {
     data: game,
     isLoading,
     error,
   } = useFetch(() => getGameBySlug(slug), [slug]);
+
+  useEffect(() => {
+    if (user && game) {
+      isFavorite(user.id, game.id).then((result) => setFavorited(result));
+    }
+  }, [user, game]);
+
+  const handleFavorite = async () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    if (favorited) {
+      await removeFavorite(user.id, game.id);
+      setFavorited(false);
+    } else {
+      await addFavorite(user.id, game.id);
+      setFavorited(true);
+    }
+  };
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -76,6 +108,17 @@ function GameDetailsPage() {
               sx={{ py: 2, fontSize: "1.2rem", fontWeight: 800 }}
             >
               Buy Now
+            </Button>
+
+            <Button
+              variant={favorited ? "contained" : "outlined"}
+              fullWidth
+              size="large"
+              startIcon={<FavoriteIcon />}
+              onClick={handleFavorite}
+              sx={{ py: 2, fontSize: "1.2rem", fontWeight: 800, mt: 2 }}
+            >
+              {favorited ? "Remove from Favorites" : "Add to Favorites"}
             </Button>
           </Box>
         </Grid>

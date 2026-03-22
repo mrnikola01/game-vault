@@ -17,27 +17,11 @@ import {
 } from "@mui/icons-material";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { getGames } from "../supabase/games";
+import useDebouncedSearch from "../hooks/useDebouncedSearch";
 
 function Navbar() {
   const navigate = useNavigate();
-  const [options, setOptions] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const handleSearch = async (value) => {
-    if (!value) {
-      setOptions([]);
-      return;
-    }
-
-    setLoading(true);
-
-    const { data } = await getGames(value);
-
-    setOptions(data || []);
-    setLoading(false);
-  };
+  const { options, loading, handleSearch } = useDebouncedSearch();
 
   return (
     <AppBar

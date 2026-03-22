@@ -17,7 +17,7 @@ import {
   VisibilityOff,
   ArrowBack as ArrowBackIcon,
 } from "@mui/icons-material";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();

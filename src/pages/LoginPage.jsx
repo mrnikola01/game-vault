@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import {
   Box,
   Container,
@@ -16,13 +17,16 @@ import {
   VisibilityOff,
   ArrowBack as ArrowBackIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  if (user) return <Navigate to="/" />;
 
   return (
     <Box

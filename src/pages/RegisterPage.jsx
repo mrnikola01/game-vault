@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { signUp } from "../supabase/auth";
+import { useAuth } from "../context/AuthContext";
 import {
   Box,
   Container,
@@ -16,14 +18,27 @@ import {
   VisibilityOff,
   ArrowBack as ArrowBackIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  if (user) return <Navigate to="/" />;
+
+  const handleSubmit = async () => {
+    const { data, error } = await signUp(username, email, password);
+
+    if (error) {
+      console.error(error.message);
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <Box
@@ -99,6 +114,7 @@ function RegisterPage() {
             />
 
             <Button
+              onClick={handleSubmit}
               variant="contained"
               fullWidth
               size="large"

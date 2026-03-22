@@ -73,20 +73,22 @@ function Navbar() {
                   backgroundColor: "rgba(255,255,255,0.1)",
                   borderRadius: 1,
                 }}
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <>
-                      <SearchIcon sx={{ mr: 1, color: "text.secondary" }} />
-                      {params.InputProps.startAdornment}
-                    </>
-                  ),
-                  endAdornment: (
-                    <>
-                      {loading && <CircularProgress size={20} />}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    startAdornment: (
+                      <>
+                        <SearchIcon sx={{ mr: 1, color: "text.secondary" }} />
+                        {params.InputProps.startAdornment}
+                      </>
+                    ),
+                    endAdornment: (
+                      <>
+                        {loading && <CircularProgress size={20} />}
+                        {params.InputProps.endAdornment}
+                      </>
+                    ),
+                  },
                 }}
               />
             )}

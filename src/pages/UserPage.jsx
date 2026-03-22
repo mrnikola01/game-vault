@@ -49,9 +49,19 @@ function UserPage() {
             {user?.email}
           </Typography>
         </Box>
-        <Button variant="outlined" color="error" onClick={handleSignOut}>
-          Sign Out
-        </Button>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate("/admin")}
+          >
+            Admin Panel
+          </Button>
+
+          <Button variant="outlined" color="error" onClick={handleSignOut}>
+            Sign Out
+          </Button>
+        </Box>
       </Box>
       <Divider sx={{ mb: 4 }} />
 

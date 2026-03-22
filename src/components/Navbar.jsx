@@ -31,11 +31,13 @@ function Navbar() {
         <Toolbar sx={{ px: 3, flexWrap: "wrap" }}>
           <Typography
             variant="h5"
+            onClick={() => navigate("/")}
             sx={{
               fontWeight: 900,
               color: "primary.main",
               letterSpacing: "-1px",
               textTransform: "uppercase",
+              cursor: "pointer",
             }}
           >
             GameVault

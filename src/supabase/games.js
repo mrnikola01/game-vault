@@ -1,7 +1,13 @@
 import supabase from "./client";
 
-export const getGames = async () => {
-  const { data, error } = await supabase.from("games").select("*");
+export const getGames = async (search = "") => {
+  let query = supabase.from("games").select("*");
+
+  if (search) {
+    query = query.ilike("title", `%${search}%`);
+  }
+
+  const { data, error } = await query;
   return { data, error };
 };
 

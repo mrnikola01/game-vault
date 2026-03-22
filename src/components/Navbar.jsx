@@ -6,17 +6,38 @@ import {
   IconButton,
   Container,
   TextField,
-  InputAdornment,
+  CircularProgress,
+  Autocomplete,
 } from "@mui/material";
+
 import {
   Search as SearchIcon,
   ShoppingCart as ShoppingCartIcon,
   Person as PersonIcon,
 } from "@mui/icons-material";
+
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { getGames } from "../supabase/games";
 
 function Navbar() {
   const navigate = useNavigate();
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (value) => {
+    if (!value) {
+      setOptions([]);
+      return;
+    }
+
+    setLoading(true);
+
+    const { data } = await getGames(value);
+
+    setOptions(data || []);
+    setLoading(false);
+  };
 
   return (
     <AppBar
@@ -43,25 +64,48 @@ function Navbar() {
             GameVault
           </Typography>
 
-          <TextField
-            placeholder="Search for games..."
-            size="small"
+          <Autocomplete
+            freeSolo
+            options={options}
+            getOptionLabel={(option) => option.title || ""}
+            loading={loading}
+            onInputChange={(event, value) => handleSearch(value)}
+            onChange={(event, value) => {
+              if (value?.slug) {
+                navigate(`/games/${value.slug}`);
+              }
+            }}
             sx={{
               ml: { xs: 0, sm: 3 },
               mt: { xs: 1, sm: 0 },
-              backgroundColor: "rgba(255,255,255,0.1)",
-              borderRadius: 1,
               width: { xs: "100%", sm: "250px", md: "400px" },
             }}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "text.secondary" }} />
-                  </InputAdornment>
-                ),
-              },
-            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Search for games..."
+                size="small"
+                sx={{
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  borderRadius: 1,
+                }}
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <>
+                      <SearchIcon sx={{ mr: 1, color: "text.secondary" }} />
+                      {params.InputProps.startAdornment}
+                    </>
+                  ),
+                  endAdornment: (
+                    <>
+                      {loading && <CircularProgress size={20} />}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            )}
           />
 
           <Box sx={{ flexGrow: 1 }} />

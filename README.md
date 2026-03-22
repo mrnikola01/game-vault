@@ -15,7 +15,9 @@ A game shop application built with React and Supabase.
 - [x] Navbar with search, cart and profile icons
 - [x] Homepage with game cards
 - [x] Game detail page
-- [ ] Authentication (login, register)
+- [x] Authentication (login, register)
+- [x] Protected user page
+- [x] Favorites functionality
 - [ ] Protected cart route
 - [ ] Add to cart functionality
 

@@ -9,6 +9,7 @@ import {
   Button,
   IconButton,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 import {
   Delete as DeleteIcon,
@@ -61,7 +62,20 @@ function CartPage() {
   );
   const total = subtotal;
 
-  if (isLoading) return <p>Loading...</p>;
+  //loading spinner
+  if (isLoading)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "60vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <Container maxWidth="xl" sx={{ py: 6 }}>

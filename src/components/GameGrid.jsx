@@ -6,6 +6,7 @@ import GameCard from "./GameCard";
 function GameGrid() {
   const { data: games, isLoading, error } = useFetch(() => getGames());
 
+  //loading spinner
   if (isLoading)
     return (
       <Box

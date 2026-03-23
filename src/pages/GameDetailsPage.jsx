@@ -54,6 +54,7 @@ function GameDetailsPage() {
     }
   };
 
+  //loading spinner
   if (isLoading)
     return (
       <Box

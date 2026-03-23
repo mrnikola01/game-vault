@@ -18,8 +18,9 @@ A game shop application built with React and Supabase.
 - [x] Authentication (login, register)
 - [x] Protected user page
 - [x] Favorites functionality
-- [ ] Protected cart route
-- [ ] Add to cart functionality
+- [x] Protected cart route
+- [x] Add to cart functionality
+- [x] Real-time cart badge
 
 ## Database Setup
 
@@ -43,6 +44,14 @@ CREATE TABLE favorites (
   id BIGSERIAL PRIMARY KEY,
   user_id UUID REFERENCES auth.users(id),
   game_id BIGINT REFERENCES games(id),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE cart (
+  id BIGSERIAL PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id),
+  game_id BIGINT REFERENCES games(id),
+  quantity INTEGER DEFAULT 1,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```

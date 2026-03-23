@@ -8,6 +8,7 @@ import GameDetailsPage from "./pages/GameDetailsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserPage from "./pages/UserPage";
+import CartPage from "./pages/CartPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
 
@@ -49,6 +50,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <UserPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <ProtectedRoute>
+                    <CartPage />
                   </ProtectedRoute>
                 }
               />

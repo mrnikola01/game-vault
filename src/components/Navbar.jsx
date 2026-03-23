@@ -66,7 +66,7 @@ function Navbar() {
             <Box sx={{ flexGrow: 1 }} />
 
             <IconButton color="inherit">
-              <ShoppingCartIcon />
+              <ShoppingCartIcon onClick={() => navigate(`/cart`)} />
             </IconButton>
             <IconButton color="inherit">
               <PersonIcon onClick={() => navigate(`/login`)} />

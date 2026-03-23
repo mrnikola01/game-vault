@@ -21,6 +21,32 @@ A game shop application built with React and Supabase.
 - [ ] Protected cart route
 - [ ] Add to cart functionality
 
+## Database Setup
+
+Run the following SQL in Supabase SQL Editor:
+
+### Tables
+
+```sql
+CREATE TABLE games (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  price NUMERIC NOT NULL,
+  image_url TEXT,
+  genre TEXT,
+  description TEXT,
+  slug TEXT UNIQUE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE favorites (
+  id BIGSERIAL PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id),
+  game_id BIGINT REFERENCES games(id),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
 ## Getting Started
 
 1. Clone the repo

@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -8,20 +10,22 @@ import {
   TextField,
   CircularProgress,
   Autocomplete,
+  Badge,
 } from "@mui/material";
-
 import {
   Search as SearchIcon,
   ShoppingCart as ShoppingCartIcon,
   Person as PersonIcon,
 } from "@mui/icons-material";
-
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 import useDebouncedSearch from "../hooks/useDebouncedSearch";
 
 function Navbar() {
   const navigate = useNavigate();
   const { options, loading, handleSearch } = useDebouncedSearch();
+  const { user } = useAuth();
+  const { cartCount } = useCart();
 
   return (
     <AppBar
@@ -65,8 +69,10 @@ function Navbar() {
 
             <Box sx={{ flexGrow: 1 }} />
 
-            <IconButton color="inherit">
-              <ShoppingCartIcon onClick={() => navigate(`/cart`)} />
+            <IconButton color="inherit" onClick={() => navigate("/cart")}>
+              <Badge badgeContent={cartCount} color="primary">
+                <ShoppingCartIcon />
+              </Badge>
             </IconButton>
             <IconButton color="inherit">
               <PersonIcon onClick={() => navigate(`/login`)} />

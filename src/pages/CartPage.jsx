@@ -20,10 +20,12 @@ import {
 } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 import { getCart, removeFromCart, updateQuantity } from "../supabase/cart";
+import { useCart } from "../context/CartContext";
 
 function CartPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { refreshCart } = useCart();
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -39,6 +41,7 @@ function CartPage() {
   const handleRemove = async (gameId) => {
     await removeFromCart(user.id, gameId);
     setCart((prev) => prev.filter((item) => item.game_id !== gameId));
+    refreshCart();
   };
 
   const handleQuantity = async (gameId, quantity, delta) => {
@@ -49,6 +52,7 @@ function CartPage() {
         item.game_id === gameId ? { ...item, quantity: newQty } : item,
       ),
     );
+    refreshCart();
   };
 
   const subtotal = cart.reduce(

@@ -79,6 +79,15 @@ function CartPage() {
 
   return (
     <Container maxWidth="xl" sx={{ py: 6 }}>
+      <Box sx={{ mb: 5 }}>
+        <Typography
+          variant="h3"
+          sx={{ fontWeight: 900, color: "primary.main", textAlign: "center" }}
+        >
+          CART
+        </Typography>
+      </Box>
+
       {cart.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 8 }}>
           <ShoppingCartIcon
@@ -211,6 +220,7 @@ function CartPage() {
                 fullWidth
                 size="large"
                 startIcon={<PaymentIcon />}
+                onClick={() => navigate("/checkout")}
                 sx={{ py: 2, fontWeight: 800 }}
               >
                 Proceed to Checkout

@@ -14,6 +14,7 @@ import {
   Favorite as FavoriteIcon,
 } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 import {
   getGameBySlug,
   addFavorite,
@@ -27,6 +28,7 @@ function GameDetailsPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [favorited, setFavorited] = useState(false);
+  const { addToCart } = useCart();
 
   const {
     data: game,
@@ -54,8 +56,16 @@ function GameDetailsPage() {
     }
   };
 
-  if (isLoading) return <LoadingSpinner />;
+  const handleBuyNow = async () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
+    await addToCart(user.id, game.id);
+  };
+
+  if (isLoading) return <LoadingSpinner />;
   if (error) return <p>Error: {error}</p>;
   if (!game) return null;
 
@@ -107,6 +117,7 @@ function GameDetailsPage() {
               fullWidth
               size="large"
               startIcon={<ShoppingCartIcon />}
+              onClick={handleBuyNow}
               sx={{ py: 2, fontSize: "1.2rem", fontWeight: 800 }}
             >
               Buy Now

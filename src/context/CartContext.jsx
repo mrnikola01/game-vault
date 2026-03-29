@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
-import { getCart } from "../supabase/cart";
+import { getCart, addToCart as supabaseAddToCart } from "../supabase/cart";
 
 const CartContext = createContext({});
 
@@ -21,6 +21,12 @@ export function CartProvider({ children }) {
     }
   };
 
+  const addToCart = async (userId, gameId) => {
+    const { error } = await supabaseAddToCart(userId, gameId);
+
+    if (!error) await refreshCart();
+  };
+
   useEffect(() => {
     refreshCart();
   }, [user]);
@@ -34,7 +40,7 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ cart, cartCount, subtotal, isLoading, refreshCart }}
+      value={{ cart, cartCount, subtotal, isLoading, refreshCart, addToCart }}
     >
       {children}
     </CartContext.Provider>

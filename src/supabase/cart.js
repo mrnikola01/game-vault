@@ -4,7 +4,8 @@ export const getCart = async (userId) => {
   const { data, error } = await supabase
     .from("cart")
     .select("*, games(*)")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .order("id", { ascending: true });
   return { data, error };
 };
 

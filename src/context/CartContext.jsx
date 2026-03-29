@@ -6,27 +6,36 @@ const CartContext = createContext({});
 
 export function CartProvider({ children }) {
   const { user } = useAuth();
-  const [cartCount, setCartCount] = useState(0);
-
-  useEffect(() => {
-    if (user) {
-      getCart(user.id).then(({ data }) => {
-        if (data) setCartCount(data.length);
-      });
-    } else {
-      setCartCount(0);
-    }
-  }, [user]);
+  const [cart, setCart] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const refreshCart = async () => {
     if (user) {
+      setIsLoading(true);
       const { data } = await getCart(user.id);
-      if (data) setCartCount(data.length);
+      setCart(data || []);
+      setIsLoading(false);
+    } else {
+      setCart([]);
+      setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    refreshCart();
+  }, [user]);
+
+  const subtotal = cart.reduce(
+    (acc, item) => acc + (item.games?.price || 0) * item.quantity,
+    0,
+  );
+
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
-    <CartContext.Provider value={{ cartCount, refreshCart }}>
+    <CartContext.Provider
+      value={{ cart, cartCount, subtotal, isLoading, refreshCart }}
+    >
       {children}
     </CartContext.Provider>
   );

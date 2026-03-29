@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -20,47 +19,24 @@ import {
   Payment as PaymentIcon,
 } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
-import { getCart, removeFromCart, updateQuantity } from "../supabase/cart";
+import { removeFromCart, updateQuantity } from "../supabase/cart";
 import { useCart } from "../context/CartContext";
 
 function CartPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { refreshCart } = useCart();
-  const [cart, setCart] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (user) {
-      getCart(user.id).then(({ data }) => {
-        if (data) setCart(data);
-        setIsLoading(false);
-      });
-    }
-  }, [user]);
+  const { cart, subtotal, isLoading, refreshCart } = useCart();
 
   const handleRemove = async (gameId) => {
     await removeFromCart(user.id, gameId);
-    setCart((prev) => prev.filter((item) => item.game_id !== gameId));
-    refreshCart();
+    await refreshCart();
   };
 
   const handleQuantity = async (gameId, quantity, delta) => {
     const newQty = Math.max(1, quantity + delta);
     await updateQuantity(user.id, gameId, newQty);
-    setCart((prev) =>
-      prev.map((item) =>
-        item.game_id === gameId ? { ...item, quantity: newQty } : item,
-      ),
-    );
     refreshCart();
   };
-
-  const subtotal = cart.reduce(
-    (acc, item) => acc + item.games.price * item.quantity,
-    0,
-  );
-  const total = subtotal;
 
   //loading spinner
   if (isLoading)
@@ -211,7 +187,7 @@ function CartPage() {
                     color="primary"
                     sx={{ fontWeight: 900 }}
                   >
-                    €{total.toFixed(2)}
+                    €{subtotal.toFixed(2)}
                   </Typography>
                 </Box>
               </Stack>

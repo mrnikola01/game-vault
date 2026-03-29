@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Container,
@@ -14,7 +14,7 @@ import {
 import { Payment as PaymentIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getCart } from "../supabase/cart";
+import { useCart } from "../context/CartContext";
 
 const paymentMethods = [
   { value: "visa", label: "Visa" },
@@ -25,10 +25,10 @@ const paymentMethods = [
 
 function CheckoutPage() {
   const { user } = useAuth();
+
   const navigate = useNavigate();
-  const [cart, setCart] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const { cart, subtotal, isLoading, refreshCart } = useCart();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -39,24 +39,10 @@ function CheckoutPage() {
     paymentMethod: "visa",
   });
 
-  useEffect(() => {
-    if (user) {
-      getCart(user.id).then(({ data }) => {
-        if (data) setCart(data);
-        setIsLoading(false);
-      });
-    }
-  }, [user]);
-
   const handleChange = (e) => {
     if (error) setError("");
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const subtotal = cart.reduce(
-    (acc, item) => acc + item.games.price * item.quantity,
-    0,
-  );
 
   const handlePlaceOrder = () => {
     setError("");

@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { useAuth } from "./AuthContext";
 import { getCart, addToCart as supabaseAddToCart } from "../supabase/cart";
 
@@ -9,7 +15,7 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const refreshCart = async () => {
+  const refreshCart = useCallback(async () => {
     if (user) {
       setIsLoading(true);
       const { data } = await getCart(user.id);
@@ -19,17 +25,17 @@ export function CartProvider({ children }) {
       setCart([]);
       setIsLoading(false);
     }
-  };
+  }, [user]);
 
-  const addToCart = async (userId, gameId) => {
-    const { error } = await supabaseAddToCart(userId, gameId);
+  const addToCart = async (gameId) => {
+    const { error } = await supabaseAddToCart(user.id, gameId);
 
     if (!error) await refreshCart();
   };
 
   useEffect(() => {
     refreshCart();
-  }, [user]);
+  }, [refreshCart]);
 
   const subtotal = cart.reduce(
     (acc, item) => acc + (item.games?.price || 0) * item.quantity,

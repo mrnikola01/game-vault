@@ -62,7 +62,7 @@ function GameDetailsPage() {
       return;
     }
 
-    await addToCart(user.id, game.id);
+    await addToCart(game.id);
   };
 
   if (isLoading) return <LoadingSpinner />;

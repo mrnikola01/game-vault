@@ -8,7 +8,6 @@ import {
   Typography,
   Button,
   Divider,
-  CircularProgress,
 } from "@mui/material";
 import {
   ShoppingCart as ShoppingCartIcon,
@@ -21,6 +20,7 @@ import {
   removeFavorite,
   isFavorite,
 } from "../supabase/games";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function GameDetailsPage() {
   const { slug } = useParams();
@@ -54,20 +54,7 @@ function GameDetailsPage() {
     }
   };
 
-  //loading spinner
-  if (isLoading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "60vh",
-        }}
-      >
-        <CircularProgress size={60} />
-      </Box>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   if (error) return <p>Error: {error}</p>;
   if (!game) return null;

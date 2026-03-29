@@ -9,12 +9,12 @@ import {
   Button,
   Divider,
   MenuItem,
-  CircularProgress,
 } from "@mui/material";
 import { Payment as PaymentIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const paymentMethods = [
   { value: "visa", label: "Visa" },
@@ -28,7 +28,7 @@ function CheckoutPage() {
 
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const { cart, subtotal, isLoading, refreshCart } = useCart();
+  const { cart, subtotal, isLoading } = useCart();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -70,19 +70,7 @@ function CheckoutPage() {
     navigate("/");
   };
 
-  if (isLoading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "60vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <Container maxWidth="xl" sx={{ py: 6 }}>

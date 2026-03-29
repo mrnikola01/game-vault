@@ -12,16 +12,20 @@ import { useAuth } from "../context/AuthContext";
 import { signOut } from "../supabase/auth";
 import { getFavorites } from "../supabase/games";
 import GameCard from "../components/GameCard";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function UserPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
+      setIsLoading(true);
       getFavorites(user.id).then(({ data }) => {
         if (data) setFavorites(data);
+        setIsLoading(false);
       });
     }
   }, [user]);
@@ -30,6 +34,8 @@ function UserPage() {
     await signOut();
     navigate("/");
   };
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <Container maxWidth="sm" sx={{ py: 8 }}>

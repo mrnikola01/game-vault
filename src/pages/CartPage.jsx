@@ -8,7 +8,6 @@ import {
   Button,
   IconButton,
   Divider,
-  CircularProgress,
 } from "@mui/material";
 import {
   Delete as DeleteIcon,
@@ -21,6 +20,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { removeFromCart, updateQuantity } from "../supabase/cart";
 import { useCart } from "../context/CartContext";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function CartPage() {
   const { user } = useAuth();
@@ -38,20 +38,7 @@ function CartPage() {
     refreshCart();
   };
 
-  //loading spinner
-  if (isLoading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "60vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <Container maxWidth="xl" sx={{ py: 6 }}>

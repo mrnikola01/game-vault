@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AppBar,
@@ -17,14 +16,12 @@ import {
   ShoppingCart as ShoppingCartIcon,
   Person as PersonIcon,
 } from "@mui/icons-material";
-import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import useDebouncedSearch from "../hooks/useDebouncedSearch";
 
 function Navbar() {
   const navigate = useNavigate();
   const { options, loading, handleSearch } = useDebouncedSearch();
-  const { user } = useAuth();
   const { cartCount } = useCart();
 
   return (

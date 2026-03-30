@@ -18,24 +18,24 @@ import {
   Payment as PaymentIcon,
 } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
-import { removeFromCart, updateQuantity } from "../supabase/cart";
 import { useCart } from "../context/CartContext";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 function CartPage() {
-  const { user } = useAuth();
   const navigate = useNavigate();
-  const { cart, subtotal, isLoading, refreshCart } = useCart();
+  const { cart, subtotal, isLoading, removeFromCart, updateQuantity } =
+    useCart();
 
   const handleRemove = async (gameId) => {
-    await removeFromCart(user.id, gameId);
-    await refreshCart();
+    removeFromCart(gameId);
   };
 
-  const handleQuantity = async (gameId, quantity, delta) => {
+  const handleQuantity = (gameId, quantity, delta) => {
     const newQty = Math.max(1, quantity + delta);
-    await updateQuantity(user.id, gameId, newQty);
-    refreshCart();
+
+    if (newQty !== quantity) {
+      updateQuantity(gameId, newQty);
+    }
   };
 
   if (isLoading) return <LoadingSpinner />;
